@@ -14,3 +14,7 @@ cookbook 'timezone-ii'
 
 cookbook 'varnish'
 cookbook 's3_file'
+
+group :wrapper do
+  cookbook 'w_varnish', path: './'
+end
