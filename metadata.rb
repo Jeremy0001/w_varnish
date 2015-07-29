@@ -4,7 +4,7 @@ maintainer_email 'joelhandwell@gmail.com'
 license          'apachev2'
 description      'Installs/Configures w_varnish'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.2.11'
+version          '0.2.12'
 
 depends 'git'
 depends 'varnish'
@@ -12,3 +12,4 @@ depends 'apt-repo'
 depends 'monit'
 depends 'firewall'
 depends 's3_file'
+depends 'hostsfile'
