@@ -19,6 +19,12 @@ describe 'w_varnish::default' do
     )
   end
 
+	let(:web_apps) do
+	  [
+	  	{ vhost: { main_domain: 'example.com' }, connection_domain: { varnish_domain: 'varnish.example.com' }, varnish: { purge_target: true}}
+	  ]
+  end
+  
   context 'with default setting' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
@@ -26,6 +32,8 @@ describe 'w_varnish::default' do
         node.set['w_varnish']['geoip']['auto_update']['enabled'] = false
         node.set['w_varnish']['geoip']['db_file_url'] = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz'
         node.set['w_varnish']['geoip']['s3']['enabled'] = false
+        node.set['w_common']['web_apps'] = web_apps
+        node.set['w_varnish']['node_ipaddress_list'] = ['7.7.7.7', '8.8.8.8']
       end.converge(described_recipe)
     end
 
@@ -67,6 +75,8 @@ describe 'w_varnish::default' do
         node.set['w_varnish']['geoip']['enabled'] = true
         node.set['w_varnish']['geoip']['auto_update']['enabled'] = false
         node.set['w_varnish']['geoip']['s3'] = s3
+        node.set['w_common']['web_apps'] = web_apps
+        node.set['w_varnish']['node_ipaddress_list'] = ['7.7.7.7', '8.8.8.8']
       end.converge(described_recipe)
     end
 
@@ -89,6 +99,8 @@ describe 'w_varnish::default' do
         node.set['w_varnish']['geoip']['auto_update']['enabled'] = false
         node.set['w_varnish']['geoip']['db_file_url'] = "http://custom.download.com/GeoLite2-City.mmdb"
         node.set['w_varnish']['geoip']['s3']['enabled'] = false
+        node.set['w_common']['web_apps'] = web_apps
+        node.set['w_varnish']['node_ipaddress_list'] = ['7.7.7.7', '8.8.8.8']
       end.converge(described_recipe)
     end
 
@@ -106,6 +118,8 @@ describe 'w_varnish::default' do
       ChefSpec::SoloRunner.new do |node|
         node.set['w_varnish']['geoip']['enabled'] = true
         node.set['w_varnish']['geoip']['auto_update'] = auto_update
+        node.set['w_common']['web_apps'] = web_apps
+        node.set['w_varnish']['node_ipaddress_list'] = ['7.7.7.7', '8.8.8.8']
       end.converge(described_recipe)
     end
 

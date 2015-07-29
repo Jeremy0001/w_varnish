@@ -70,4 +70,5 @@ end
   end
 end
 
+include_recipe 'w_varnish::hosts'
 include_recipe 'w_varnish::monit' if node['monit_enabled']

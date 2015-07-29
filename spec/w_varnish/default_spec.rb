@@ -6,6 +6,12 @@ describe 'w_varnish::default' do
     stub_command("apt-key list | grep DE742AFA").and_return(true)
   end
 
+	let(:web_apps) do
+	  [
+	  	{ vhost: { main_domain: 'example.com' }, connection_domain: { varnish_domain: 'varnish.example.com' }, varnish: { purge_target: true}}
+	  ]
+  end
+  
   context 'with default setting and node[\'varnish\'][\'backend_hosts\']=(3 backend_hosts)' do
     let(:backend_hosts) { ['1.1.1.1', '2.2.2.2', '3.3.3.3'] }
     let(:chef_run) do
@@ -20,6 +26,8 @@ describe 'w_varnish::default' do
         node.set['monit_enabled'] = false
         node.set['w_varnish']['multi_cookie_enabled'] = false
         node.set['w_varnish']['geoip']['enabled'] = false
+        node.set['w_common']['web_apps'] = web_apps
+        node.set['w_varnish']['node_ipaddress_list'] = ['7.7.7.7', '8.8.8.8']
       end.converge(described_recipe)
     end
     let(:template_etc_varnish_default_vcl) { chef_run.template('/etc/varnish/default.vcl') }
@@ -133,6 +141,8 @@ describe 'w_varnish::default' do
       ChefSpec::SoloRunner.new do |node|
         node.automatic['ipaddress'] = '4.4.4.4'
         node.set['varnish']['listen_address'] = '5.5.5.5'
+        node.set['w_common']['web_apps'] = web_apps
+        node.set['w_varnish']['node_ipaddress_list'] = ['7.7.7.7', '8.8.8.8']
       end.converge(described_recipe)
     end
 
@@ -152,6 +162,8 @@ describe 'w_varnish::default' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
         node.set['w_varnish']['multi_cookie_enabled'] = true
+        node.set['w_common']['web_apps'] = web_apps
+        node.set['w_varnish']['node_ipaddress_list'] = ['7.7.7.7', '8.8.8.8']
       end.converge(described_recipe)
     end
 
@@ -164,6 +176,8 @@ describe 'w_varnish::default' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
         node.set['w_varnish']['geoip']['enabled'] = true
+        node.set['w_common']['web_apps'] = web_apps
+        node.set['w_varnish']['node_ipaddress_list'] = ['7.7.7.7', '8.8.8.8']
       end.converge(described_recipe)
     end
 
@@ -186,6 +200,8 @@ describe 'w_varnish::default' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
         node.set['monit_enabled'] = true
+        node.set['w_common']['web_apps'] = web_apps
+        node.set['w_varnish']['node_ipaddress_list'] = ['7.7.7.7', '8.8.8.8']
       end.converge(described_recipe)
     end
 
