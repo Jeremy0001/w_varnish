@@ -6,6 +6,8 @@ default['varnish']['backend_hosts'] = ["localhost"
 #, "second.host"
 #, "10.4.12.11"
 ]
+default['varnish']['listen_port'] = "80"
+default['varnish']['backend_port'] = "80"
 default['varnish']['admin_listen_port'] = '6082'
 default['varnish']['X-Varnish-IP'] = node['ipaddress']
 
