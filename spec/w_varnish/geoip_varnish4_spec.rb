@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe 'w_varnish::default' do
+describe 'w_varnish::geoip_varnish4' do
   before do
     stub_command('apt-key list | grep C7917B12').and_return(true)
     stub_command("apt-key list | grep DE742AFA").and_return(true)
@@ -64,8 +64,8 @@ describe 'w_varnish::default' do
     let(:s3) do
       {
         enabled: true,
-        s3_url: 'https://s3-eu-west-1.amazonaws.com/nweu',
-        bucket: 'nweu',
+        s3_url: 'https://s3-eu-west-1.amazonaws.com/bucket',
+        bucket: 'bucket',
         remote_path: '/chef/w_varnish/geoip/GeoIP2-City_20141209.mmdb'
       }
     end
@@ -82,8 +82,8 @@ describe 'w_varnish::default' do
 
     it 'downloads geoip db file from s3' do
       expect(chef_run).to create_s3_file('/etc/varnish/GeoIP2-City.mmdb').with(
-        s3_url: 'https://s3-eu-west-1.amazonaws.com/nweu',
-        bucket: 'nweu',
+        s3_url: 'https://s3-eu-west-1.amazonaws.com/bucket',
+        bucket: 'bucket',
         remote_path: '/chef/w_varnish/geoip/GeoIP2-City_20141209.mmdb',
         aws_access_key_id: 'xxxxxxxxxxxxxxxxxxkeyid',
         aws_secret_access_key: 'xxxxxxxxxxxxxxxxxxaccesskey'
