@@ -10,6 +10,6 @@ depends 'git'
 depends 'varnish'
 depends 'apt-repo'
 depends 'monit'
-depends 'firewall', "~> 0.9"
+depends 'firewall'
 depends 's3_file'
 depends 'hostsfile'
