@@ -11,7 +11,7 @@ describe 'w_varnish::default' do
 	  	{ vhost: { main_domain: 'example.com' }, connection_domain: { varnish_domain: 'varnish.example.com' }, varnish: { purge_target: true}}
 	  ]
   end
-  
+
   context 'with default setting and node[\'varnish\'][\'backend_hosts\']=(3 backend_hosts)' do
     let(:backend_hosts) { ['1.1.1.1', '2.2.2.2', '3.3.3.3'] }
     let(:chef_run) do
@@ -116,12 +116,12 @@ describe 'w_varnish::default' do
     end
 
     it 'enables firewall' do
-      expect(chef_run).to enable_firewall('ufw')
+      expect(chef_run).to install_firewall('default')
     end
 
     [8080, 6081, 6082].each do |listen_port|
       it "runs resoruce firewall_rule to open port #{listen_port}" do
-        expect(chef_run).to allow_firewall_rule("listen port #{listen_port}").with(port: listen_port, protocol: :tcp)
+        expect(chef_run).to create_firewall_rule("listen port #{listen_port}").with(port: listen_port)
       end
     end
 
