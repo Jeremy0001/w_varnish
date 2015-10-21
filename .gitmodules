@@ -1,0 +1,3 @@
+[submodule "test/integration/test_w_varnish"]
+	path = test/integration/test_w_varnish
+	url = https://github.com/haapp/serverspec-w_varnish.git
