@@ -1,6 +1,7 @@
-include_recipe "apt-repo"
-ppa "chris-lea/python-geoip2"
-ppa "maxmind/ppa"
+apt_repository 'maxmind' do
+  uri 'ppa:maxmind/ppa'
+  distribution node['lsb']['codename']
+end
 
 package "libmaxminddb-dev"
 package "automake"
@@ -13,23 +14,23 @@ db_dest = '/etc/varnish/GeoIP2-City.mmdb'
 
 unless node['w_varnish']['geoip']['auto_update']['enabled'] then
 
-	if node['w_varnish']['geoip']['s3']['enabled'] then
-  	Chef::Log.info("downloading maxmind geoip db paid version from s3")
-  	aws_credential = data_bag_item('aws', 'aws_credential')
+  if node['w_varnish']['geoip']['s3']['enabled'] then
+    Chef::Log.info("downloading maxmind geoip db paid version from s3")
+    aws_credential = data_bag_item('aws', 'aws_credential')
 
-  	s3_file db_dest do
-			s3_url node['w_varnish']['geoip']['s3']['s3_url']
-			bucket node['w_varnish']['geoip']['s3']['bucket']
-			remote_path node['w_varnish']['geoip']['s3']['remote_path']
-			aws_access_key_id aws_credential['aws_access_key_id']
-			aws_secret_access_key aws_credential['aws_secret_access_key']
-		end
+    s3_file db_dest do
+      s3_url node['w_varnish']['geoip']['s3']['s3_url']
+      bucket node['w_varnish']['geoip']['s3']['bucket']
+      remote_path node['w_varnish']['geoip']['s3']['remote_path']
+      aws_access_key_id aws_credential['aws_access_key_id']
+      aws_secret_access_key aws_credential['aws_secret_access_key']
+    end
 
   elsif db_source.end_with? 'GeoLite2-City.mmdb.gz' then
     Chef::Log.info("downloading maxmind geoip db free version")
     remote_file db_dest + '.gz' do
       source db_source
-		end
+    end
 
     execute 'gzip -d ' + db_dest + '.gz' do
       creates db_dest

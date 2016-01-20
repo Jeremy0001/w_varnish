@@ -119,10 +119,10 @@ describe 'w_varnish::default' do
       expect(chef_run).to install_firewall('default')
     end
 
-    [8080, 6081, 6082].each do |listen_port|
-      it "runs resoruce firewall_rule to open port #{listen_port}" do
-        expect(chef_run).to create_firewall_rule("listen port #{listen_port}").with(port: listen_port)
-      end
+    it 'configure firewall to open varnish ports' do
+      expect(chef_run).to create_firewall_rule('backend port').with_port(8080)
+      expect(chef_run).to create_firewall_rule('listen port').with_port(6081)
+      expect(chef_run).to create_firewall_rule('admin listen port').with_port(6082)
     end
 
     it 'enables and restarts varnish service' do
