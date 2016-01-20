@@ -16,5 +16,6 @@ cookbook 'varnish'
 cookbook 's3_file'
 
 group :wrapper do
+  cookbook 'w_common', git: 'https://github.com/haapp/w_common.git'
   cookbook 'w_varnish', path: './'
 end
