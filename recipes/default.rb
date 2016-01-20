@@ -60,10 +60,16 @@ end
 
 firewall 'default'
 
-[node['varnish']['backend_port'], node['varnish']['listen_port'], node['varnish']['admin_listen_port']].each do |varnish_port|
-  firewall_rule "listen port #{varnish_port}" do
-    port     varnish_port.to_i
-  end
+firewall_rule 'backend port' do
+  port node['varnish']['backend_port'].to_i
+end
+
+firewall_rule 'listen port' do
+  port node['varnish']['listen_port'].to_i
+end
+
+firewall_rule 'admin listen port' do
+  port node['varnish']['admin_listen_port'].to_i
 end
 
 include_recipe 'w_varnish::hosts'
