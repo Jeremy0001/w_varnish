@@ -4,7 +4,6 @@ require 'mymatchers'
 
 ChefSpec::Coverage.start! do
   add_filter(%r{[\/\\]apt[\/\\]})
-  add_filter(%r{[\/\\]apt-repo[\/\\]})
   add_filter(%r{[\/\\]monit[\/\\]})
   add_filter(%r{[\/\\]build-essential[\/\\]})
   add_filter(%r{[\/\\]git[\/\\]})

@@ -24,7 +24,7 @@ describe 'w_varnish::geoip_varnish4' do
 	  	{ vhost: { main_domain: 'example.com' }, connection_domain: { varnish_domain: 'varnish.example.com' }, varnish: { purge_target: true}}
 	  ]
   end
-  
+
   context 'with default setting' do
     let(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
@@ -37,8 +37,8 @@ describe 'w_varnish::geoip_varnish4' do
       end.converge(described_recipe)
     end
 
-    it 'include recipe apt-repo' do
-      expect(chef_run).to include_recipe('apt-repo::default')
+    it 'adds apt repository' do
+      expect(chef_run).to add_apt_repository('maxmind').with(uri: 'ppa:maxmind/ppa', distribution: 'trusty')
     end
 
     %w(libmaxminddb-dev automake autoconf build-essential libtool).each do |package|

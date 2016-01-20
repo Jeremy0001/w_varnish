@@ -4,7 +4,6 @@ source 'https://supermarket.chef.io'
 
 cookbook 'ubuntu'
 cookbook 'apt'
-cookbook 'apt-repo', git: 'https://github.com/sometimesfood/chef-apt-repo.git'
 cookbook 'git'
 cookbook 'monit', git: 'https://github.com/phlipper/chef-monit.git'
 cookbook 'firewall', '~> 2.0.2'
