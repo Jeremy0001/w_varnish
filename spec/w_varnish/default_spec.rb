@@ -6,12 +6,6 @@ describe 'w_varnish::default' do
     stub_command("apt-key list | grep DE742AFA").and_return(true)
   end
 
-	let(:web_apps) do
-	  [
-	  	{ vhost: { main_domain: 'example.com' }, connection_domain: { varnish_domain: 'varnish.example.com' }, varnish: { purge_target: true}}
-	  ]
-  end
-
   context 'with default setting and node[\'varnish\'][\'backend_hosts\']=(3 backend_hosts)' do
     let(:backend_hosts) { ['1.1.1.1', '2.2.2.2', '3.3.3.3'] }
     let(:chef_run) do
